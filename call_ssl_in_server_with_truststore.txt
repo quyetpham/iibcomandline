@@ -1,0 +1,7 @@
+1.mqsichangeproperties IBNODE2 -e IS01.ABB.IBNODE2 -o ComIbmJVMManager -n truststoreFile -v /data/ibm/IIBDATA/esb_config/ssl/iib_abb_keystore.jks
+2.mqsichangeproperties IBNODE2 -e IS01.ABB.IBNODE2 -o ComIbmJVMManager -n keystorePass -v trustStore::password
+3.mqsisetdbparms IBNODE2 -n trustStore::password -u ignore -p iib123456
+4.keytool -import -trustcacerts -alias devtruemoneycomvn -file /data/ibm/IIBDATA/esb_config/ssl/devtruemoneycomvn.crt -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb_keystore.jks
+report:
+5.keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb_keystore.jks -storepass iib123456
+6.mqsireportproperties IBNODE2 -e IS01.ABB.IBNODE2 -o ComIbmJVMManager -r

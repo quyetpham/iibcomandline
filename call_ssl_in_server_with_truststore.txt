@@ -5,3 +5,17 @@
 report:
 5.keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb_keystore.jks -storepass iib123456
 6.mqsireportproperties IBNODE2 -e IS01.ABB.IBNODE2 -o ComIbmJVMManager -r
+
+
+Essentially, the keystore in javax.net.ssl.keyStore is meant to contain your private keys and certificates,
+ whereas the javax.net.ssl.trustStore is meant to contain the CA certificates you're willing to trust when a remote party presents its certificate. 
+ In some cases, they can be one and the same store, although it's often better practice to use distinct stores (especially when they're file-based).
+ 
+ B?n ch?t,keystore ch?a private keys và certificates dùng d? cài lên phía server trình bày chính ch? còn trustore ch?a CA certificate mà b?n mu?n trust khi server h?i.
+ 
+ 
+ B?t c? cái gì du?c mã hóa b?ng khóa công khai ch? có th? du?c gi?i mã b?ng khóa riêng tu và ngu?c l?i
+ 
+ 
+ các bu?c c?u hình ssl?
+ 1.C?u hình ssl cho 

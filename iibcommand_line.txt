@@ -1,0 +1,147 @@
+## MPLUSDB ON NODE1 and NODE2 
+
+mqsisetdbparms TESTNODE_quyet -n jdbc::MPLUSDBSecurityIdentity -u MPLUSDB -p MpluSDb#123
+mqsichangeproperties TESTNODE_quyet -c JDBCProviders -o MPLUSDB -n securityIdentity -v MPLUSDBSecurityIdentity
+
+mqsisetdbparms IBNODE2 -n jdbc::MPLUSDBSecurityIdentity -u MPLUSDB -p MpluSDb#123
+mqsichangeproperties IBNODE2 -c JDBCProviders -o MPLUSDB -n securityIdentity -v MPLUSDBSecurityIdentity
+
+## BankplusDB ON NODE1 and NODE2
+
+mqsisetdbparms IBNODE1 -n jdbc::BANKPLUSDBSecurityIdentity -u sa -p abcd1234a@
+mqsichangeproperties IBNODE1 -c JDBCProviders -o BankPlusDBProvider -n securityIdentity -v BANKPLUSDBSecurityIdentity
+
+mqsisetdbparms IBNODE2 -n jdbc::BANKPLUSDBSecurityIdentity -u bankplus -p cbs~1234
+mqsichangeproperties IBNODE2 -c JDBCProviders -o BankPlusDBProvider -n securityIdentity -v BANKPLUSDBSecurityIdentity
+
+
+Service Query URL	http://Desb-app-hw-p1:7800/mpayservices/?wsdl
+
+
+mqsichangeproperties IBNODE2 -b httplistener -o HTTPConnector -n port -v 7800
+
+mqsichangeproperties IBNODE2 -e default -o HTTPConnector -n explicitlySetPortNumber -v 7800
+
+
+mqsisetdbparms IBNODE1 -n jdbc::ESBDBSecurityIdentity -u ESBDB -p EsBDb#123 
+
+mqsisetdbparms IBNODE1 -n jdbc::ESBDBSecurityIdentity -u ESBDB -p AbcdE1234 
+
+
+
+mqsichangeproperties IBNODE1 -c JDBCProviders -o ESBDB -n securityIdentity -v ESBDBSecurityIdentity
+
+//enable cross 
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPConnector -n corsEnabled -v true
+
+
+
+mqsichangeproperties IBNODE1 -b httpslistener -o HTTPSListener -n startListener -v false
+
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ExecutionGroup -n httpNodesUseEmbeddedListener -v true
+
+
+mqsireportproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPSConnector -r
+
+mqsireportproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPConnector -r
+
+================
+i) Cấu hình dịch vụ https
+Thông tin cấu hình cho dịch vụ Mobile Payment sử dụng dịch vụ https trên IIB
+Bước 1: Tạo keystore (dạng .jks) sử dụng công cụ ikeyman trong:
+installation_folder\10.0.0.x\common\jdk\jre\bin\ (có thể sử dụng selfsigned cert hoặc cert có sẵn đã bào private key)
+Bước 2: chạy các lệnh sau 
+$ mqsistart IBNODE1
+$ mqsireportproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager –r
+$ mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager –n keystoreFile -v /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks
+$ mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager -n keystorePass -v defaultKeystore::password
+$ mqsistop IBNODE1
+$ mqsisetdbparms IBNODE1 -n defaultKeystore::password -u ignore -p iib123456
+$ mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPSConnector -n explicitlySetPortNumber -v 8443
+$ mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPSConnector -n sslProtocol -v SSL
+===============
+
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager -n keystoreFile -v /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager -n keystorePass -v brokerKeystore::password
+
+
+
+mqsireportproperties TESTNODE_quyet -c JDBCProviders -o Oracle -r
+mqsireportproperties IBNODE1 -c JDBCProviders -o Oracle -r
+
+mqsireportproperties TESTNODE_quyet -c JDBCProviders -a -o AllReportableEntityNames
+
+mqsisetdbparms TESTNODE_quyet -n jdbc::ESBDBSecurityIdentity -u ESBDB -p EsBDb#123
+mqsichangeproperties TESTNODE_quyet -c JDBCProviders -o ESBDB -n securityIdentity -v ESBDBSecurityIdentity
+EsBDb#123
+
+ESBDBSecurityIdentity
+
+
+mqsireportproperties TESTNODE_quyet -o ESBDB -c JDBCProviders -r
+mqsireportproperties IBNODE1 -o ESBDB -c JDBCProviders -r
+mqsireportproperties IBNODE2 -o ESBDB -c JDBCProviders -r
+
+you must stop and restart integration node for the change to the JDBCProviders to become available to a message flow that is already deployed.
+
+
+$ mqsireportproperties IBNODE1 -e default -o ComIbmJVMManager –r
+
+
+mqsireportproperties IBNODE1 -o BrokerRegistry -r 
+
+
+
+keytool -genkey -alias IBNODE1 -keystore IBNODE1_08102017.jks -keysize 2048
+
+keytool -list -keystore C:\Program Files\IBM\IIB\10.0.0.8\IBNODE1_08102017.jks -storepass iib123456
+
+
+keytool -import -trustcacerts -alias cyberpayvn.crt -file cyberpayvn.crt -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks
+
+
+keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks -storepass iib123456
+keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/IBNODE1_08102017.jks -storepass iib123456
+
+
+mqsichangeproperties TESTNODE_quyet -e default -o HTTPConnector -n explicitlySetPortNumber -v 8085 
+
+
+//ngay 09/10/2017
+$ mqsistart IBNODE3
+mqsireportproperties IBNODE1 -e default -o ComIbmJVMManager –r
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager -n keystoreFile -v /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o ComIbmJVMManager -n keystorePass  -v defaultKeystore::password
+
+mqsisetdbparms IBNODE1 -n defaultKeystore::password -u ignore -p iib123456
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPSConnector -n explicitlySetPortNumber -v 8443
+mqsichangeproperties IBNODE1 -e IS01.ABB.IBNODE1 -o HTTPSConnector -n sslProtocol -v SSL
+
+
+mqsichangeproperties IBNODE3 -e default -o ComIbmJVMManager -n keystoreFile -v /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks
+//mqsichangeproperties BROKER1 -e <EG Name> -o ComIbmJVMManager -n keystoreType -v JKS   chua can su dung
+mqsichangeproperties IBNODE3 -e default -o ComIbmJVMManager -n keystorePass  -v defaultKeystore::password
+//mqsichangeproperties BROKER1 -e <EG Name> -o ComIbmJVMManager -n truststoreFile  -v /home/brkr/BROKER1.jks  chua can su dung
+
+bnm~09123
+
+mqsireportproperties IBNODE2 -b httplistener -o AllReportableEntityNames -a 
+mqsireportproperties IBNODE2 -b httplistener -o HTTPListener -r 
+mqsireportproperties IBNODE2 -b httplistener -o HTTPSConnector  -r
+
+mqsireportproperties IBNODE2 -e default -o HTTPSConnector -r
+https://www.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/ap12234_.htm?view=embed#ap12234_2
+
+//If you disabled the broker-wide listener, run the mqsichangeproperties command to restart it. For example:
+mqsichangeproperties IBNODE2 -b httplistener -o HTTPListener -n startListener -v true
+
+mqsichangeproperties IBNODE2 -e default -o ExecutionGroup 	-n httpNodesUseEmbeddedListener -v false
+
+mqsichangeproperties IBNODE2 -o ExecutionGroup -n httpNodesUseEmbeddedListener -v false
+
+//Switching from a broker-wide listener to embedded listeners
+	  
+mqsichangeproperties IBNODE2 -b httplistener -o HTTPListener -n startListener -v false
+
+mqsichangeproperties IBNODE2 -e IS01.ABB.IBNODE2 -o ExecutionGroup -n soapNodesUseEmbeddedListener -v true
+

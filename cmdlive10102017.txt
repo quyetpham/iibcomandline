@@ -1,0 +1,10 @@
+keytool -import -trustcacerts -alias cyberpayvn.crt -file cyberpayvn.crt -keystore IBNODE1_08102017.jks
+
+
+keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/iib_abb.jks -storepass iib123456
+keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/IBNODE1_08102017.jks -storepass iib123456
+
+touch test.file
+
+
+mqsibackupbroker IBNODE1 -d data/ibm/IIBDATA/Backup_Node

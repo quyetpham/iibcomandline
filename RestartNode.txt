@@ -8,7 +8,8 @@ Các bước restart node
 	mqsilist
 5.vào toolkit stop hết các dịch vụ.
 6.Stop node
-	mqsistop IBNODE1
+	mqsistop IBNODE1 (trở về trạng thái standby)
+	mqsistop -i IBNODE1 (stop hoàn toàn node)
 7.theo dõi lại:
 	topas -m
 	mqsilist (kiểm tra trạng thái xem đã stop hay chưa)
@@ -18,4 +19,3 @@ Các bước restart node
 10.Kiểm tra lại các service
 Done 	
 
-mqsistop -i IBNODE1

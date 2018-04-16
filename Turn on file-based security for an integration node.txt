@@ -1,25 +1,32 @@
-1.Stop node:
-dùng lệnh mqsistop -i IBNODE1
-2.Bật chế độ auth active:
+
+1.đăng nhập user iibsonth
+2.set biến môi trường để chạy lệnh mqsi:
+vào bin trong cài đặt iib : cd app/iib-10.0.0.7/server/bin
+chạy lệnh . ./mqsiprofile
+3.Stop node:
+cmd:mqsistop -i IBNODE1
+kiểm tra lại cmd:
+mqsilist
+4.Bật chế độ auth active:
 mqsichangeauthmode IBNODE1 -s active -m file
 Thành công sẽ báo ở output 
 BIP8071I: Successful command completion.
-3.Kiểm tra lại bằng lệnh:
+5.Kiểm tra lại bằng lệnh:
 mqsireportauthmode IBNODE1
 Output:
 BIP8930I: Integration node name 'IBNODE1'
 Administration security = 'active' 
 Authorization mode = 'file
 Khi đã bật lên trên giao diện web site sẽ thấy 
-4.Tạo user bằng lệnh:
+6.Tạo user bằng lệnh:
 mqsiwebuseradmin IBNODE1 -c -u IIBuser -a <password>
-5.Phân quyền cho user:
+7.Phân quyền cho user:
 mqsichangefileauth IBNODE1 -r IIBuser -p read+
 có thể thay đổi permissions xem thêm ở tài liệu 'read+,write-,execute-,all'
-6.Restart lại node:
+8.Restart lại node:
 mqsistart IBNODE1
 
 tham khảo thêm tại
 https://www.ibm.com/developerworks/websphere/library/techarticles/1603_gedupuri-trs/1603_gedupuri.html
 
-Note: hiện tại đang cài trên node1 IIBNODE1 môi trường dev 10.32.15.22
+Note: hiện tại đang cài trên node1 IBNODE1 môi trường dev 10.32.15.22

@@ -1,0 +1,37 @@
+Restart node
+1.logon user iibsonth (unix user)
+2.set biến môi trường để chạy lệnh mqsi:
+	vào bin trong cài đặt iib cmd: cd app/iib-10.0.0.7/server/bin
+	chạy lệnh: . ./mqsiprofile
+3.Kiểm tra 2 node:
+	mqsilist
+4.Vào toolkit stop hết các dịch vụ.
+5.Stop node
+	mqsistop IBNODE1 (trở về trạng thái standby)
+	mqsistop -i IBNODE1 (stop hoàn toàn node)
+6.Theo dõi lại:
+	topas -m
+	mqsilist (kiểm tra trạng thái xem đã stop hay chưa)
+7.Start lại node
+	mqsistart IBNODE1
+8.Vào toolkit start lại dịch vụ.
+9.Kiểm tra lại các service
+Done 	
+
+
+
+note: trường hợp server restart thì mq sẽ bị tắt cần khởi động lại mq trước khi khởi động lại node
+Các bước restart mq
+1.Đăng nhập user mqm
+2.Set biến môi trường để chạy lệnh mq
+	vào bin trong cài đặt iib : cd /app/MQ9/usr/mqm/bin
+	. ./setmqenv -s
+	chạy lệnh sau để start mqm
+	strmqm MQname
+3.Dùng lệnh kiểm tra mq đã start chưa:
+	dspmq
+	
+Tham khảo thêm ở 
+https://www.ibm.com/support/knowledgecenter/en/SSMKHH_9.0.0/com.ibm.etools.mft.doc/an28310_.htm
+https://www.ibm.com/support/knowledgecenter/en/SSFKSJ_7.5.0/com.ibm.mq.ref.adm.doc/q083560_.htm
+

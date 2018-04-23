@@ -1,0 +1,6 @@
+link source code 
+ssh://git@10.32.15.34/~/git/repos/iib
+link test case
+ssh://git@10.32.15.34/~/git/repos/iib_lab
+link tài li?u cmd v?n hành cài d?t
+ssh://git@10.32.15.34/~/git/repos/iibcmd

@@ -2,5 +2,8 @@ link source code
 ssh://git@10.32.15.34/~/git/repos/iib
 link test case
 ssh://git@10.32.15.34/~/git/repos/iib_lab
-link t�i li?u cmd v?n h�nh c�i d?t
+link cmd vận hành và cài đặt
 ssh://git@10.32.15.34/~/git/repos/iibcmd
+
+
+password abc~1234

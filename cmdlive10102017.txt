@@ -7,4 +7,6 @@ keytool -list -keystore /data/ibm/IIBDATA/esb_config/ssl/IBNODE1_08102017.jks -s
 touch test.file
 
 
-mqsibackupbroker IBNODE1 -d data/ibm/IIBDATA/Backup_Node
+mqsibackupbroker IBNODE2 -d data/ibm/IIBDATA/Backup_Node
+
+mqsirestorebroker IBNODE2 -d data/ibm/IIBDATA/Backup_Node -a IBNODE2_180419_182017.zip

@@ -1,4 +1,4 @@
-Restart node
+﻿Restart node
 1.logon user iibsonth (unix user)
 2.set biến môi trường để chạy lệnh mqsi:
 	vào bin trong cài đặt iib cmd: cd app/iib-10.0.0.7/server/bin
@@ -7,11 +7,13 @@ Restart node
 	mqsilist
 4.Vào toolkit stop hết các dịch vụ.
 5.Stop node
-	mqsistop IBNODE1 (trở về trạng thái standby)
 	mqsistop -i IBNODE1 (stop hoàn toàn node)
+	------mqsistop IBNODE1 (trở về trạng thái standby) không cần dùng lệnh này
+	
 6.Theo dõi lại:
-	topas -m
 	mqsilist (kiểm tra trạng thái xem đã stop hay chưa)
+	------topas -m (có thể ko cần dùng lệnh này)
+	
 7.Start lại node
 	mqsistart IBNODE1
 8.Vào toolkit start lại dịch vụ.

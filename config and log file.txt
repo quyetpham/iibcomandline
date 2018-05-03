@@ -1,0 +1,22 @@
+File config
+
+Cấu hình chanel vs tcclient
+/data/ibm/IIBDATA/esb_config/t24
+Cấu hình ssl gồm có cert và jks (keystore)
+/data/ibm/IIBDATA/esb_config/ssl
+jdbc file
+/data/ibm/IIBDATA/esb_config/lib
+cấu hình bankid(chuyển từ chữ sang số) và phí giao dịch
+/data/ibm/IIBDATA/esb_config/bankplus
+lưu trữ file backup node
+/data/ibm/IIBDATA/esb_config/Backup_Node
+
+
+File log
+service lưu database
+/data/ibm/IIBDATA/esb_logs/LoggingSave2DB
+card service
+/data/ibm/IIBDATA/esb_logs/CardINF
+Bankplus service
+/data/ibm/IIBDATA/esb_logs/Bankplus
+
